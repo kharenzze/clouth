@@ -1,0 +1,26 @@
+{
+	"name": "nuxt-app",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "pnpm run build && wrangler dev",
+		"postinstall": "nuxt prepare",
+		"deploy": "pnpm run build && wrangler deploy",
+		"cf-typegen": "wrangler types"
+	},
+	"dependencies": {
+		"nuxt": "^4.0.3",
+		"vue": "^3.5.20",
+		"vue-router": "^4.5.1"
+	},
+	"packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977",
+	"devDependencies": {
+		"h3": "^1.15.4",
+		"nitro-cloudflare-dev": "^0.2.2",
+		"nitropack": "^2.12.4",
+		"wrangler": "^4.33.1"
+	}
+}
