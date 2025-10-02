@@ -1,75 +1,23 @@
-# Nuxt Minimal Starter
+# Clouth
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
+## Better-Auth migrations with prisma for Cloudflare D1
 
 ```bash
-# npm
-npm install
+# First time
+# Generate prisma schema
+pnpx prisma generate
+pnpx @better-auth/cli@latest generate
 
-# pnpm
-pnpm install
+# Create DB
+DB_NAME=prisma-demo-db
+pnpx wrangler d1 create $DB_NAME
 
-# yarn
-yarn install
+# Create migration files
+pnpx wrangler d1 migrations create $DB_NAME create_user_table
+pnpx prisma migrate diff --from-empty --to-schema-datamodel ./prisma/schema.prisma --script --output migrations/0001_create_user_table.sql
 
-# bun
-bun install
+# Apply migrations
+pnpx wrangler d1 migrations apply $DB_NAME --local
+# or
+pnpx wrangler d1 migrations apply $DB_NAME --remote
 ```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
