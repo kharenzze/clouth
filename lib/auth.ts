@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "~~/lib/generated/prisma";
 import { PrismaD1 } from "@prisma/adapter-d1";
-import { jwt } from "better-auth/plugins";
+import { jwt, openAPI } from "better-auth/plugins";
 import type { D1Database } from "@cloudflare/workers-types";
 
 export const configureAuth = (db?: D1Database) => {
@@ -29,7 +29,7 @@ export const configureAuth = (db?: D1Database) => {
       enabled: true,
       requireEmailVerification: false,
     },
-    plugins: [jwt()],
+    plugins: [jwt(), openAPI()],
   });
 };
 

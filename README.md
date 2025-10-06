@@ -20,4 +20,12 @@ pnpx prisma migrate diff --from-empty --to-schema-datamodel ./prisma/schema.pris
 pnpx wrangler d1 migrations apply $DB_NAME --local
 # or
 pnpx wrangler d1 migrations apply $DB_NAME --remote
+
+# Then, for the following migrations:
+# First, add better-auth plugins. Then:
+pnpx @better-auth/cli@latest generate
+pnpx prisma generate
+# After that, prepare migration files
+pnpx wrangler d1 migrations create $DB_NAME jwt
+pnpx prisma migrate diff --from-local-d1  --to-schema-datamodel ./prisma/schema.prisma --script --output migrations/0002_jwt.sql
 ```
