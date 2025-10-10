@@ -16,13 +16,15 @@ const state = reactive({
 });
 
 const toast = useToast();
+const authClient = useAuthClient();
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   toast.add({
     title: "Success",
     description: "The form has been submitted.",
     color: "primary",
   });
-  console.log(event.data);
+  const response = await authClient.signIn.email(toValue(event.data));
 }
 </script>
 
