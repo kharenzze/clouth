@@ -19,12 +19,16 @@ const toast = useToast();
 const authClient = useAuthClient();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "primary",
-  });
   const response = await authClient.signIn.email(toValue(event.data));
+  if (response.error) {
+    toast.add({
+      title: "Error",
+      description: response.error.message,
+      color: "error",
+    });
+  } else {
+    navigateTo("/");
+  }
 }
 </script>
 
