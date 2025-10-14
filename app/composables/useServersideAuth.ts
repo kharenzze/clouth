@@ -1,18 +1,29 @@
 export async function useServersideAuth() {
-  const event = useRequestEvent();
-
   const { data } = await useAsyncData("serversideAuth", async () => {
-    if (!event?.context?.auth) {
-      return undefined;
-    }
-
-    try {
-      // Get the session from the request
-      const session = await event.context.auth.api.getSession(event.node.req);
-      return session;
-    } catch (error) {
-      console.error("Error checking authentication:", error);
-      return undefined;
+    if (import.meta.server) {
+      const event = useRequestEvent();
+      if (!event) {
+        return undefined;
+      }
+      try {
+        // Get the session from the request
+        const session = await event.context.auth.api.getSession(event.node.req);
+        return session;
+      } catch (error) {
+        return undefined;
+      }
+    } else if (import.meta.client) {
+      try {
+        const authClient = useAuthClient();
+        const { data, error } = await authClient.getSession();
+        if (error) {
+          return undefined;
+        }
+        console.log("clientAuth", data);
+        return data;
+      } catch (err) {
+        return undefined;
+      }
     }
   });
   return data;
