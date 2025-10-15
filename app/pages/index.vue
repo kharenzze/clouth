@@ -19,7 +19,12 @@ const email = auth.value?.user?.email;
         <h1 class="text-2xl font-bold text-center">Hello</h1>
       </template>
 
-      <p class="text-center">You're are logged in as {{ email }}</p>
+      <div class="space-y-2 text-center">
+        <p>You're are logged in as</p>
+        <p>
+          <b>{{ email }}</b>
+        </p>
+      </div>
       <div class="flex justify-center mt-4">
         <UButton @click="signOut">Sign Out</UButton>
       </div>
