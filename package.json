@@ -9,7 +9,10 @@
 		"preview": "pnpm run build && wrangler dev",
 		"postinstall": "nuxt prepare",
 		"deploy": "pnpm run build && wrangler deploy",
-		"cf-typegen": "wrangler types"
+		"cf-typegen": "wrangler types",
+		"test": "vitest",
+		"test:nuxt": "vitest --project nuxt",
+		"test:unit": "vitest --project unit"
 	},
 	"dependencies": {
 		"@cloudflare/workers-types": "^4.20251014.0",
@@ -25,9 +28,13 @@
 	},
 	"packageManager": "pnpm@10.16.1+sha512.0e155aa2629db8672b49e8475da6226aa4bdea85fdcdfdc15350874946d4f3c91faaf64cbdc4a5d1ab8002f473d5c3fcedcd197989cf0390f9badd3c04678706",
 	"devDependencies": {
+		"@nuxt/test-utils": "^3.20.1",
+		"@vue/test-utils": "^2.4.6",
 		"h3": "^1.15.4",
+		"happy-dom": "^20.0.10",
 		"nitro-cloudflare-dev": "^0.2.2",
 		"nitropack": "^2.12.9",
+		"vitest": "^4.0.5",
 		"wrangler": "^4.45.2"
 	}
 }
