@@ -29,6 +29,7 @@ export const configureAuth = (db?: D1Database) => {
       enabled: true,
       requireEmailVerification: false,
     },
+
     plugins: [jwt(), openAPI()],
   });
 };

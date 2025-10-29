@@ -3,6 +3,8 @@ import { reactive } from "vue";
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
+const authClient = useAuthClient();
+
 const schema = z
   .object({
     email: z.string().email("Invalid email"),
@@ -24,12 +26,19 @@ const state = reactive({
 
 const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({
-    title: "Success",
-    description: "Account created successfully!",
-    color: "primary",
+  const response = await authClient.signUp.email({
+    email: toValue(event.data.email),
+    password: toValue(event.data.password),
   });
-  console.log(event.data);
+  if (response.error) {
+    toast.add({
+      title: "Error",
+      description: response.error.message,
+      color: "error",
+    });
+    return;
+  }
+  navigateTo("/");
 }
 </script>
 

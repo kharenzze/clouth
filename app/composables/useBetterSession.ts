@@ -1,4 +1,4 @@
-export async function useServersideAuth() {
+export async function useBetterSession() {
   const { data } = await useAsyncData("serversideAuth", async () => {
     if (import.meta.server) {
       const event = useRequestEvent();
@@ -19,7 +19,6 @@ export async function useServersideAuth() {
         if (error) {
           return undefined;
         }
-        console.log("clientAuth", data);
         return data;
       } catch (err) {
         return undefined;

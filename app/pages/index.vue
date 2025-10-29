@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const auth = await useServersideAuth();
+const auth = await useBetterSession();
 const authClient = useAuthClient();
 
 if (!auth) {
