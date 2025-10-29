@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { reactive } from "vue";
-import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
+import { z } from "zod";
 
 const authClient = useAuthClient();
 
 const schema = z
   .object({
+    name: z.string().min(1, "Name is required"),
     email: z.string().email("Invalid email"),
     password: z.string().min(8, "Must be at least 8 characters"),
     confirmPassword: z.string().min(8, "Must be at least 8 characters"),
@@ -18,15 +18,10 @@ const schema = z
 
 type Schema = z.infer<typeof schema>;
 
-const state = reactive({
-  email: "",
-  password: "",
-  confirmPassword: "",
-});
-
 const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const response = await authClient.signUp.email({
+    name: toValue(event.data.name),
     email: toValue(event.data.email),
     password: toValue(event.data.password),
   });
@@ -49,30 +44,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <h1 class="text-2xl font-bold text-center">Sign Up</h1>
       </template>
 
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-4"
-        @submit="onSubmit"
-      >
-        <UFormField label="Email" name="email">
-          <UInput v-model="state.email" class="w-full" />
-        </UFormField>
-
-        <UFormField label="Password" name="password">
-          <UInput v-model="state.password" type="password" class="w-full" />
-        </UFormField>
-
-        <UFormField label="Confirm Password" name="confirmPassword">
-          <UInput
-            v-model="state.confirmPassword"
-            type="password"
-            class="w-full"
-          />
-        </UFormField>
-
-        <UButton type="submit" block> Sign Up </UButton>
-      </UForm>
+      <SignUpForm @submit="onSubmit" />
 
       <template #footer>
         <p class="text-sm text-center">
